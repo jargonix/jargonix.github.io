@@ -67,6 +67,7 @@ a { color: inherit; text-decoration: none; }
 .text-chrome {
   background: linear-gradient(180deg, oklch(0.98 0.005 80) 0%, oklch(0.82 0.015 90) 45%, oklch(0.55 0.02 280) 55%, oklch(0.88 0.04 60) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-bottom: 0.08em; /* gradyan kutusu alt kuyrukları (g, p) kapsasın */
 }
 .text-bronze {
   background: linear-gradient(180deg, oklch(0.85 0.1 60), oklch(0.62 0.11 45));
@@ -194,9 +195,9 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Hero with side visual ---------- */
 .hero-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
 @media (min-width: 980px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 3rem; } }
-.hero-left h1 { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 6rem); line-height: 0.95; letter-spacing: -0.02em; margin: 1.3rem 0 0; }
+.hero-left h1 { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 6rem); line-height: 1.02; letter-spacing: -0.02em; margin: 1.3rem 0 0; }
 .hero-left h1 .l1 { display: block; color: var(--pearl); }
-.hero-left h1 .l2 { display: block; font-style: italic; }
+.hero-left h1 .l2 { display: block; font-style: italic; padding-bottom: 0.26em; line-height: 1.12; }
 .hero-left p { max-width: 48ch; color: var(--muted-foreground); margin: 1.3rem 0 0; font-size: 1.04rem; }
 
 .hero-right { position: relative; }
