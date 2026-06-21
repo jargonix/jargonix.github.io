@@ -42,10 +42,7 @@
 <aside class="contact-visual hero-right">
 <div class="hero-frame glass-strong">
 <img src="/assets/img/hero-chrome.jpg" alt="Liquid chrome sculpture" width="1280" height="1536" loading="eager">
-<div class="hero-frame-label glass">
-<div><div class="mini">The studio</div><div class="ser">Built privately</div></div>
-<div class="live">● live</div>
-</div>
+<a class="hero-frame-tag glass" href="/">Jargonix apps <span aria-hidden>→</span></a>
 </div>
 </aside>
 </section>
@@ -71,8 +68,7 @@
 <div class="footer-copy">© 2026 Jargonix. All rights reserved. · <a href="/contact/">Contact</a></div>
 </div></footer>
 <script>
-var WORKER_URL = "";
-// e-posta HTML'de yok; parçalardan JS ile kuruluyor (spam/scraper koruması)
+var WORKER_URL = "https://jargonix-contact.austaustoronyo.workers.dev";
 var ADDR = "iqx2dev" + String.fromCharCode(64) + "gmail.com";
 var slot = document.getElementById('email-slot');
 if (slot) slot.innerHTML = '<a href="mailto:'+ADDR+'">'+ADDR+'</a>';
@@ -93,7 +89,6 @@ f.addEventListener('submit', async function(e){
   var name = document.getElementById('name').value || '—';
   var email = document.getElementById('email').value;
   var msg = document.getElementById('message').value;
-  var text = '📩 Jargonix contact\n\nName: '+name+'\nEmail: '+email+'\n\n'+msg;
   btn.disabled = true; var old = btn.textContent; btn.textContent = 'Sending…';
   try {
     if (!WORKER_URL) throw new Error('no-worker');
@@ -101,7 +96,7 @@ f.addEventListener('submit', async function(e){
       body: JSON.stringify({ name:name, email:email, message:msg }) });
     var j = await r.json();
     if (!j.ok) throw new Error('relay');
-    st.className='form-status ok'; st.textContent='Thanks! Your message has been sent.'; f.reset();
+    st.className='form-status ok'; st.textContent='Thanks! Your message has been sent. We usually reply within an hour.'; f.reset();
   } catch (err) {
     mailtoFallback(name, email, msg);
     st.className='form-status ok'; st.textContent='Opening your email app…';
