@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact & Support — Jargonix</title>
+<meta name="description" content="Get in touch with Jargonix for support, questions or feedback about any of our apps.">
+<meta name="robots" content="noindex, noarchive, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div class="bg-ribbon" aria-hidden="true"></div><header class="nav"><div class="nav-inner glass-pill">
+<a class="brand" href="/"><span class="brand-mark"><span>j</span></span><span class="brand-name">Jargonix</span></a>
+<ul class="nav-links">
+<li><a href="/#apps">Apps</a></li>
+<li><a href="/#studio">Studio</a></li>
+<li><a href="/contact/">Contact</a></li>
+</ul>
+<a class="nav-cta" href="/contact/">Support <span aria-hidden>→</span></a>
+</div></header>
+<main class="wrap">
+<section class="page-hero">
+<div class="eyebrow"><span class="dot"></span> We usually reply within 1 hour</div>
+<h1 class="page-title">Contact &amp; <span class="text-chrome italic">Support</span></h1>
+<p class="page-sub">Questions about an app, a subscription, or your data? Send a message below — we typically respond within an hour.</p>
+</section>
+<section class="contact-grid">
+<div class="content glass-strong contact-form-card">
+<form id="cform">
+<div class="field"><label for="name">Name (optional)</label><input id="name" name="name" type="text" placeholder="Your name"></div>
+<div class="field"><label for="email">Your email</label><input id="email" name="email" type="email" required placeholder="you@example.com"></div>
+<div class="field"><label for="message">Message</label><textarea id="message" name="message" rows="6" required placeholder="How can we help?"></textarea></div>
+<div class="field" style="max-width:240px"><label for="captcha">Security check: 7 + 2 = ?</label><input id="captcha" name="captcha" type="number" required placeholder="Answer"></div>
+<button class="btn-solid" id="cbtn" type="submit">Send message</button>
+<div class="form-status" id="cstatus"></div>
+</form>
+<p class="contact-alt">Prefer email? Write to <span id="email-slot">our team</span>.</p>
+</div>
+<aside class="contact-visual hero-right">
+<div class="hero-frame glass-strong">
+<img src="/assets/img/hero-chrome.jpg" alt="Liquid chrome sculpture" width="1280" height="1536" loading="eager">
+<div class="hero-frame-label glass">
+<div><div class="mini">The studio</div><div class="ser">Built privately</div></div>
+<div class="live">● live</div>
+</div>
+</div>
+</aside>
+</section>
+</main><footer class="footer"><div class="wrap">
+<div class="footer-top">
+<div>
+<a class="brand" href="/"><span class="brand-mark"><span>j</span></span><span class="brand-name">Jargonix</span></a>
+<p>An independent app studio. Privacy-first apps for iPhone, iPad & the web.</p>
+</div>
+<nav class="footer-links">
+<a href="/pcap-file-viewer-reader/">PCAP Viewer · Jargonix</a>
+<a href="/crt-viewer-pem-cer-reader/">CRT Viewer · PEM PFX</a>
+<a href="/stl-viewer-model-file-reader/">STL Viewer · 3D Models</a>
+<a href="/pst-viewer-reader/">PST Viewer · Outlook</a>
+<a href="/mbox-viewer-reader/">MBOX Viewer · Mail</a>
+<a href="/open-msg-eml-viewer-reader/">Open MSG · EML Viewer</a>
+<a href="/djvu-reader-viewer/">DjVu Reader · Viewer</a>
+<a href="/photoprep-passport-white-bg/">BG Remover · BeGrand</a>
+<a href="/volume-booster-1000-max/">Volume Booster 1000 MAX</a>
+<a href="/contact/">Contact &amp; Support</a>
+</nav>
+</div>
+<div class="footer-copy">© 2026 Jargonix. All rights reserved. · <a href="/contact/">Contact</a></div>
+</div></footer>
+<script>
+var WORKER_URL = "";
+// e-posta HTML'de yok; parçalardan JS ile kuruluyor (spam/scraper koruması)
+var ADDR = "iqx2dev" + String.fromCharCode(64) + "gmail.com";
+var slot = document.getElementById('email-slot');
+if (slot) slot.innerHTML = '<a href="mailto:'+ADDR+'">'+ADDR+'</a>';
+
+var f = document.getElementById('cform');
+var st = document.getElementById('cstatus');
+var btn = document.getElementById('cbtn');
+function mailtoFallback(name, email, msg){
+  window.location.href = 'mailto:'+ADDR+'?subject='+encodeURIComponent('Jargonix support — '+email)
+    +'&body='+encodeURIComponent(msg+'\n\nFrom: '+name+' <'+email+'>');
+}
+f.addEventListener('submit', async function(e){
+  e.preventDefault();
+  st.className = 'form-status';
+  if (document.getElementById('captcha').value.trim() !== '9') {
+    st.className='form-status err'; st.textContent='Security check failed. 7 + 2 = 9.'; return;
+  }
+  var name = document.getElementById('name').value || '—';
+  var email = document.getElementById('email').value;
+  var msg = document.getElementById('message').value;
+  var text = '📩 Jargonix contact\n\nName: '+name+'\nEmail: '+email+'\n\n'+msg;
+  btn.disabled = true; var old = btn.textContent; btn.textContent = 'Sending…';
+  try {
+    if (!WORKER_URL) throw new Error('no-worker');
+    var r = await fetch(WORKER_URL, { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ name:name, email:email, message:msg }) });
+    var j = await r.json();
+    if (!j.ok) throw new Error('relay');
+    st.className='form-status ok'; st.textContent='Thanks! Your message has been sent.'; f.reset();
+  } catch (err) {
+    mailtoFallback(name, email, msg);
+    st.className='form-status ok'; st.textContent='Opening your email app…';
+  } finally { btn.disabled = false; btn.textContent = old; }
+});
+</script>
+</body></html>
